@@ -1,0 +1,87 @@
+﻿@*
+    זה דף שמציג את התוצאות שהתקבלו מ-github
+    בעיקרון אני עובר על הקשימה שהתקבלה מהחיפוש ומציג אותה
+*@
+
+@{
+    ViewBag.Title = "Json Result";
+}
+
+
+
+
+    @{
+        var list = (List<string>)Session["JsonStr"];
+       
+    }
+        <table border="1" class="table  table-hover">
+            <thead>
+                <tr class="table-success">
+                    <th></th>
+                    <th>שם השדה</th>
+                    <th>ערך</th>
+                </tr>
+            </thead>
+            <tbody>
+                
+                @{
+                    int pos = 0;
+                    string popupname ="";
+               foreach (var element in list)
+                {
+                    pos++;
+                   popupname = "ex"+pos;
+                    string el = (string)element;
+                    string[] elements2 = el.Split(':');
+                    string head = elements2[0];
+                    string val = "";
+                    //if (elements2.Count > 1)
+                    {
+                        val = elements2[1];
+                    }
+                    <tr>
+                        <td>
+                            
+                                
+
+                            <form action="details" method="POST">
+                               
+                                <input id="search"  name="search" value="@val" type="hidden" runat="server" />
+                                <!--The Button-->
+                                <input id="doSearch" class="btn btn-primary" type="submit" title="בצע חיפוש" value="+" />
+
+                            </form>
+                                <div class="modal fade" id="@popupname" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="exampleModalLabel">Details</h5>
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body">
+                                                @val
+                                            </div>
+                                            <div class="modal-footer">
+
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+</td>
+                        <td>
+                            @head
+                        </td>
+                        <td>
+                            @val
+                        </td>
+                    </tr>
+                }}
+            </tbody>
+        </table>
+    </form>
+
+</p>

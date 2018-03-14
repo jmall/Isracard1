@@ -1,0 +1,95 @@
+﻿@*
+    זה דף של פירוש השדה שעליו מקישים. גם הוא דומה מאד לדף הראשי, רק שכאן אי אפשר להמשיך הלאה
+*@
+
+@{
+    ViewBag.Title = "Details";
+    string txt = (string)Session["JsonRes"];
+    dynamic stuff1 = Newtonsoft.Json.JsonConvert.DeserializeObject(txt);
+    Newtonsoft.Json.Linq.JArray items = stuff1.items;
+
+    string search = (string)Session["ID"];
+
+    dynamic res = GetSelectedRecord(search, items);
+
+    List<string> jsonElements = new List<string>();
+    var propVal = "";
+    string propName = "";
+    foreach (Object element1 in res)
+    {
+        dynamic element = element1;
+        if (element.Value.GetType() != typeof(Newtonsoft.Json.Linq.JValue))
+        {
+            
+        }
+        else
+        {
+            propName = element.Name;
+            propVal = (string)element.Value;
+        }
+        jsonElements.Add(propName + ":" + propVal);
+
+    }
+     <h2>Details</h2>
+    <table border="1" class="table  table-hover">
+        <thead>
+            <tr class="table-success">
+                @*<th></th>*@
+                <th>שם השדה</th>
+                <th>ערך</th>
+            </tr>
+        </thead>
+        <tbody>
+
+            @{
+                int pos = 0;
+                string popupname = "";
+                foreach (var element in jsonElements)
+                {
+                    pos++;
+                    popupname = "ex" + pos;
+                    string el = (string)element;
+                    string[] elements2 = el.Split(':');
+                    string head = elements2[0];
+                    string val = "";
+                    
+                    {
+                        val = elements2[1];
+                    }
+                    <tr>
+
+                        <td>
+                            @head
+                        </td>
+                        <td>
+                            @val
+                        </td>
+                    </tr>
+                }}
+        </tbody>
+    </table>
+
+}
+
+    @functions{
+        public dynamic GetSelectedRecord(string search, Newtonsoft.Json.Linq.JArray items)
+        {
+            foreach (dynamic elementArray in items)
+            {
+                foreach (Object element1 in elementArray)
+                {
+                    dynamic element = element1;
+                    string val = element.Value;
+                    if (element.Name == "id" && val == search)
+                    {
+                        return elementArray;
+                    }
+                    // get only the first member of the array
+                    break;
+                }
+            }
+            return string.Empty;
+        }
+    }
+   
+  

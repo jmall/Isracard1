@@ -1,0 +1,30 @@
+﻿@*
+    זה הדף הראשי, הוא פשוט מאד. מכיל בסך הכל מקום להכניס את החיפוש וכפתור חיפוש
+*@
+
+@{
+    ViewBag.Title = "Home Page";
+}
+@section featured {
+    <section class="featured">
+        <div class="content-wrapper">
+            <hgroup class="title">
+                <h2>@ViewBag.Message</h2>
+            </hgroup>
+            
+        </div>
+    </section>
+}
+<ol>
+    <li>
+    <h5>חיפוש ביטוי</h5>
+    <form action="Home/search" method="POST">
+        <!--The input line-->
+        <input id="search" name="search" type="text" runat="server" />
+
+        <!--The Button-->
+        <input id="doSearch" type="submit" value="בצע חיפוש" title="בצע חיפוש" />
+    </form>
+    </li>
+</ol>  
+
